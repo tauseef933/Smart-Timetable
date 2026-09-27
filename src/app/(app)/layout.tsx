@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/layout/app-shell";
 
@@ -11,6 +12,10 @@ export default async function DashboardLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect("/login");
+  }
+
   const { data: settings } = await supabase
     .from("app_settings")
     .select("college_name")
@@ -20,7 +25,7 @@ export default async function DashboardLayout({
   return (
     <AppShell
       collegeName={settings?.college_name || "Greenfield College"}
-      email={user?.email || "admin"}
+      email={user.email || "admin"}
     >
       {children}
     </AppShell>

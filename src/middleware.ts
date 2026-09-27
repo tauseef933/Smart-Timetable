@@ -1,8 +1,12 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/middleware";
+import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  return updateSession(request);
+/**
+ * Keep middleware minimal on Vercel Edge.
+ * Auth is enforced in the (app) layout via Supabase server client
+ * to avoid MIDDLEWARE_INVOCATION_FAILED crashes.
+ */
+export function middleware(_request: NextRequest) {
+  return NextResponse.next();
 }
 
 export const config = {
