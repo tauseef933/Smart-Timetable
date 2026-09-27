@@ -1,11 +1,11 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 /**
  * Keep middleware minimal on Vercel Edge.
  * Auth is enforced in the (app) layout via Supabase server client
  * to avoid MIDDLEWARE_INVOCATION_FAILED crashes.
  */
-export function middleware(_request: NextRequest) {
+export function middleware() {
   return NextResponse.next();
 }
 
